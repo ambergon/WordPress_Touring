@@ -11,12 +11,8 @@
  * Domain Path:
  * */
 
-
-##とりあえず指定した記事のカテゴリのdraft記事をリストで取得する
 #カテゴリ
 #- Touring
-#- date
-
 
 class WordPress_Touring {
 
@@ -25,7 +21,6 @@ class WordPress_Touring {
 
     function SetPluginMenu(){
         add_menu_page( self::PLUGIN_NAME . 'の設定' , self::PLUGIN_NAME , 'administrator' , __FILE__ , [ $this , 'setting' ] );
-        #add_action( 'admin_init' , [ $this , 'setting_api' ] );
     }
     function setting(){
         global $parent_file;
@@ -44,46 +39,29 @@ class WordPress_Touring {
                     'ignore_sticky_posts' => true,
                 ])
         );
+
         #投稿がなければキャンセル
         if ( ! $request->have_posts() ) {
-            error_log( 'return');
             return;
         }
 
-        #ランダムで一つだけ取得する
-        #取得された最近の記事の数だけfor文を回す
-        foreach ( $request->posts as $posts ){
-            $post = get_post( $posts->ID );
-            echo $post->post_content;
-        }
+        #cssを読み込む
+        echo '<link rel="stylesheet"  href="';
+        bloginfo('stylesheet_url');
+        echo '" type="text/css" media="all" />';
 
-        echo 'aaaa';
-        #echo'<form method="post" action="options.php">'
-        #settings_fields( self::PREFIX );
-        #do_settings_sections( self::PREFIX );
-        #submit_button();
-        #echo'</form>'
+        $randam_post = array_rand( $request->posts , 1 );
+        $randam_draft = $request->posts[ $randam_post ];
+        $post = get_post( $randam_draft->ID );
+        echo $post->post_content;
     }
-    #function setting_api(){
-    #}
 }
-
-
-
 
 $WordPress_Touring = new WordPress_Touring();
 
 if( is_admin() ){
     add_action( 'admin_menu' , [ $WordPress_Touring , 'SetPluginMenu' ] );
 }
-
-
-
-
-
-
-
-
 
 
 
