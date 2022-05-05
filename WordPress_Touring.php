@@ -1,7 +1,7 @@
 <?php
 /* Plugin Name:WordPress_Touring
  * Plugin URI:
- * Description:
+ * Description:Touring カテゴリのDraft記事をランダムで一つ表示する。
  * Version:1.0
  * Author:ambergon
  * Author URI:https://ambergonslibrary.com/
